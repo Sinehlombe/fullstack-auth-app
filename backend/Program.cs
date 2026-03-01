@@ -60,11 +60,29 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// ===== AUTO MIGRATE DATABASE =====
+// ===== AUTO MIGRATE DATABASE WITH RETRY =====
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    var retries = 10;
+    while (retries > 0)
+    {
+        try
+        {
+            db.Database.Migrate();
+            break;
+        }
+        catch (Exception)
+        {
+            retries--;
+            if (retries == 0) throw;
+            Thread.Sleep(3000);
+        }
+    }
 }
+
+
+    
+        
 
 app.Run();

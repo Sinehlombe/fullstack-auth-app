@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: auth_db
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: auth_backend
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=authdb;Username=postgres;Password=postgres123
+      - Jwt__Key=your-super-secret-jwt-key-that-is-at-least-32-characters-long
+      - Jwt__Issuer=fullstack-auth-app
+      - Jwt__Audience=fullstack-auth-app-users
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: auth_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
