@@ -1,16 +1,113 @@
-# React + Vite
+# Fullstack Auth App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack authentication application built with React, C# (ASP.NET Core), PostgreSQL, and Docker.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React, React Router, Axios, Plain CSS
+- **Backend:** C# ASP.NET Core Web API
+- **Database:** PostgreSQL
+- **Containerisation:** Docker & Docker Compose
 
-## React Compiler
+## Architecture
+```
+React Frontend
+  → Nginx (reverse proxy)
+    → ASP.NET Core API
+      → Service Layer (business logic)
+        → Repository Layer (data access)
+          → PostgreSQL
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Backend Layers
+- **Controllers** — handle HTTP requests and responses
+- **Services** — contain all business logic
+- **Repositories** — handle all database operations
+- **DTOs** — define the shape of data sent over the wire
+- **Models** — represent database entities
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- User registration with First Name, Last Name, Email and Password
+- Secure login with JWT authentication
+- Password hashing with BCrypt
+- Protected routes on both frontend and backend
+- Auto database migrations on startup
+- Unit tests with xUnit and Moq
+
+## Prerequisites
+
+- Docker Desktop
+
+That's it. Docker handles everything else.
+
+## How to Run
+
+**1. Clone the repository:**
+```bash
+git clone https://github.com/Sinehlombe/fullstack-auth-app.git
+cd fullstack-auth-app
+```
+
+**2. Start the application:**
+```bash
+docker-compose up --build
+```
+
+**3. Open your browser:**
+```
+http://localhost
+```
+
+## API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | /api/auth/register | Register a new user | No |
+| POST | /api/auth/login | Login and receive JWT token | No |
+| GET | /api/user/me | Get logged in user details | Yes |
+
+## Running Tests
+```bash
+cd backend.Tests
+dotnet test
+```
+
+## Assessment Requirements Coverage
+
+| Requirement | Status |
+|-------------|--------|
+| Register page with First Name, Last Name, Email, Password | ✅ |
+| Login page with Email and Password | ✅ |
+| Protected User Details page | ✅ |
+| C# ASP.NET Core API | ✅ |
+| PostgreSQL database | ✅ |
+| Backend running in Docker | ✅ |
+| PostgreSQL running in same Docker setup | ✅ |
+| Unit tests | ✅ |
+| Source control (GitHub) | ✅ |
+| Comprehensive README | ✅ |
+
+## Project Structure
+```
+fullstack-auth-app/
+├── frontend/                  # React application
+│   ├── src/
+│   │   ├── api/               # HTTP calls to backend
+│   │   ├── context/           # Auth context (global state)
+│   │   ├── components/        # Reusable components
+│   │   └── pages/             # Register, Login, UserDetails
+│   ├── nginx.conf             # Nginx reverse proxy config
+│   └── Dockerfile
+├── backend/                   # ASP.NET Core API
+│   ├── Controllers/
+│   ├── Services/
+│   ├── Repositories/
+│   ├── Models/
+│   ├── DTOs/
+│   ├── Data/
+│   └── Dockerfile
+├── backend.Tests/             # Unit tests
+├── docker-compose.yml
+└── README.md
+```
