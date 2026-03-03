@@ -78,11 +78,17 @@ http://localhost
 
 ## Running Tests
 
-**Unit tests:**
+
+
+**All tests (unit + integration):**
 ```bash
 cd backend.Tests
 dotnet test
 ```
+
+This will run all 13 tests:
+- 7 unit tests (AuthService and UserService)
+- 6 integration tests (API endpoints end to end)
 
 ## Assessment Requirements Coverage
 
@@ -100,6 +106,15 @@ dotnet test
 | Build script | ✅ |
 | Source control (GitHub) | ✅ |
 | Comprehensive README | ✅ |
+
+
+## Bonus Points
+
+| Bonus Item | Status | Details |
+|------------|--------|---------|
+| Integration tests | ✅ | 6 integration tests covering all API endpoints end to end |
+| Build script | ✅ | `build.bat` for Windows, `build.sh` for Linux/Mac |
+
 
 ## Project Structure
 ```
