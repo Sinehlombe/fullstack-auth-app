@@ -34,6 +34,8 @@ React Frontend
 - Protected routes on both frontend and backend
 - Auto database migrations on startup
 - Unit tests with xUnit and Moq
+- Integration tests with xUnit
+- Build scripts for Windows and Linux/Mac
 
 ## Prerequisites
 
@@ -43,13 +45,20 @@ That's it. Docker handles everything else.
 
 ## How to Run
 
-**1. Clone the repository:**
+**Option 1 - Using the build script (recommended):**
+
+Windows:
 ```bash
-git clone https://github.com/Sinehlombe/fullstack-auth-app.git
-cd fullstack-auth-app
+build.bat
 ```
 
-**2. Start the application:**
+Linux/Mac:
+```bash
+chmod +x build.sh
+./build.sh
+```
+
+**Option 2 - Manual:**
 ```bash
 docker-compose up --build
 ```
@@ -68,6 +77,8 @@ http://localhost
 | GET | /api/user/me | Get logged in user details | Yes |
 
 ## Running Tests
+
+**Unit tests:**
 ```bash
 cd backend.Tests
 dotnet test
@@ -85,6 +96,8 @@ dotnet test
 | Backend running in Docker | ✅ |
 | PostgreSQL running in same Docker setup | ✅ |
 | Unit tests | ✅ |
+| Integration tests | ✅ |
+| Build script | ✅ |
 | Source control (GitHub) | ✅ |
 | Comprehensive README | ✅ |
 
@@ -107,7 +120,9 @@ fullstack-auth-app/
 │   ├── DTOs/
 │   ├── Data/
 │   └── Dockerfile
-├── backend.Tests/             # Unit tests
+├── backend.Tests/             # Unit and integration tests
+├── build.bat                  # Build script for Windows
+├── build.sh                   # Build script for Linux/Mac
 ├── docker-compose.yml
 └── README.md
 ```
